@@ -1,10 +1,10 @@
-package com.tutomato.delivary;
+package com.tutomato.delivery;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DelivaryApplicationTests {
+class ApplicationTests {
 
     @Test
     void contextLoads() {

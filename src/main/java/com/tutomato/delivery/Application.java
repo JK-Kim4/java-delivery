@@ -1,13 +1,13 @@
-package com.tutomato.delivary;
+package com.tutomato.delivery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DelivaryApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(DelivaryApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }
