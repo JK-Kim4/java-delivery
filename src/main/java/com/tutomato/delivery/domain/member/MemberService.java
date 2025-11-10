@@ -26,7 +26,7 @@ public class MemberService {
             command.account(),
             command.rawPassword(),
             command.name(),
-            new CryptoCipherFactory().get(CryptoAlgorithm.SHA256)
+            CryptoCipherFactory.get(CryptoAlgorithm.SHA256)
         );
 
         memberJpaRepository.save(member);

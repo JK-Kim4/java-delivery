@@ -3,25 +3,28 @@ package com.tutomato.delivery.common.utils.cipher;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class CryptoCipherFactory {
+public final class CryptoCipherFactory {
 
-    private final Map<CryptoAlgorithm, CryptoCipher> cipherMap
+    private static final Map<CryptoAlgorithm, CryptoCipher> CIPHER_MAP
         = new EnumMap<>(CryptoAlgorithm.class);
 
-    public CryptoCipherFactory() {
+    static {
         register(new Sha256CryptoCipher());
     }
 
-    private void register(CryptoCipher cipher) {
-        cipherMap.put(cipher.algorithm(), cipher);
+    private CryptoCipherFactory() {
+        throw new AssertionError("Cannot instantiate CryptoCipherFactory");
     }
 
-    public CryptoCipher get(CryptoAlgorithm algorithm) {
-        CryptoCipher cipher = cipherMap.get(algorithm);
+    private static void register(CryptoCipher cipher) {
+        CIPHER_MAP.put(cipher.algorithm(), cipher);
+    }
+
+    public static CryptoCipher get(CryptoAlgorithm algorithm) {
+        CryptoCipher cipher = CIPHER_MAP.get(algorithm);
         if (cipher == null) {
             throw new IllegalArgumentException("지원하지 않는 암호화 알고리즘입니다: " + algorithm);
         }
         return cipher;
     }
-
 }
