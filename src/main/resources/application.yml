@@ -1,1 +1,23 @@
+spring:
+  application:
+    name: delivery
 
+server:
+  port: 8080
+
+---
+spring.config.activate.on-profile: local, test
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:54321/delivery
+    username: delivery
+    password: delivery
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  main:
+    allow-bean-definition-overriding: true
