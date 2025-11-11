@@ -3,7 +3,11 @@ package com.tutomato.delivery.domain.member;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipher;
 import com.tutomato.delivery.domain.BaseTimeEntity;
 import com.tutomato.delivery.domain.member.exception.InvalidMemberException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,30 +18,31 @@ import java.util.regex.Pattern;
 @Table(name = "members")
 public class Member extends BaseTimeEntity {
 
-    // account 생성 조건: 4~20자 영문 대소문자+숫자
-    private static final Pattern ACCOUNT_PATTERN = Pattern.compile("^[a-z0-9A-Z]{4,20}$");
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String account;
+    @Embedded
+    private Account account;
 
+    @Embedded
     private Password password;
 
+    @Column(name = "name", nullable = false, length = 20)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, columnDefinition = "varchar(12)")
     private Role role;
 
     protected Member() {
     }
 
     private Member(
-        String account,
+        Account account,
         Password password,
         String name
     ) {
-        validateAccount(account);
         validateName(name);
 
         this.account = account;
@@ -52,18 +57,12 @@ public class Member extends BaseTimeEntity {
         String name,
         CryptoCipher cipher
     ) {
-        Password password = Password.from(rawPassword, cipher);
-        return new Member(account, password, name);
-    }
 
-    private static void validateAccount(String account) {
-        if (account == null || account.isBlank()) {
-            throw new InvalidMemberException("아이디(account)는 비어 있을 수 없습니다.");
-        }
-
-        if (!ACCOUNT_PATTERN.matcher(account).matches()) {
-            throw new InvalidMemberException("아이디는 4~20자의 영문 소문자와 숫자만 사용할 수 있습니다.");
-        }
+        return new Member(
+            Account.from(account),
+            Password.from(rawPassword, cipher),
+            name
+        );
     }
 
     private static void validateName(String name) {
@@ -81,7 +80,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public String getAccount() {
-        return account;
+        return account.getAccount();
     }
 
     public Password getPassword() {

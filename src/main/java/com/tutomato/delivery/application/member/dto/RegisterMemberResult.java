@@ -1,4 +1,4 @@
-package com.tutomato.delivery.domain.member.dto;
+package com.tutomato.delivery.application.member.dto;
 
 import com.tutomato.delivery.domain.member.Member;
 import com.tutomato.delivery.domain.member.Role;

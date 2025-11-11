@@ -1,9 +1,11 @@
-package com.tutomato.delivery.domain.member;
+package com.tutomato.delivery.application.member;
 
 import com.tutomato.delivery.common.utils.cipher.CryptoAlgorithm;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipherFactory;
-import com.tutomato.delivery.domain.member.dto.RegisterMemberCommand;
-import com.tutomato.delivery.domain.member.dto.RegisterMemberResult;
+import com.tutomato.delivery.domain.member.Account;
+import com.tutomato.delivery.domain.member.Member;
+import com.tutomato.delivery.application.member.dto.RegisterMemberCommand;
+import com.tutomato.delivery.application.member.dto.RegisterMemberResult;
 import com.tutomato.delivery.domain.member.exception.MemberAlreadyExistException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.springframework.stereotype.Service;
@@ -11,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class MemberService {
+public class MemberRegisterService {
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public MemberService(MemberJpaRepository memberJpaRepository) {
+    public MemberRegisterService(MemberJpaRepository memberJpaRepository) {
         this.memberJpaRepository = memberJpaRepository;
     }
 
@@ -35,7 +37,7 @@ public class MemberService {
     }
 
     private void validateDuplicateAccount(String account) {
-        memberJpaRepository.findByAccount(account)
+        memberJpaRepository.findByAccount(Account.from(account))
             .ifPresent(existing -> {
                 throw new MemberAlreadyExistException("이미 사용 중인 계정입니다. account=" + account);
             });

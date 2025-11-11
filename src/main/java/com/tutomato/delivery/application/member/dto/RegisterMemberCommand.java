@@ -1,4 +1,4 @@
-package com.tutomato.delivery.domain.member.dto;
+package com.tutomato.delivery.application.member.dto;
 
 public record RegisterMemberCommand(
     String account,

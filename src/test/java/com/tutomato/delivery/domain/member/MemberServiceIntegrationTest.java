@@ -3,8 +3,9 @@ package com.tutomato.delivery.domain.member;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.tutomato.delivery.domain.member.dto.RegisterMemberCommand;
-import com.tutomato.delivery.domain.member.dto.RegisterMemberResult;
+import com.tutomato.delivery.application.member.MemberRegisterService;
+import com.tutomato.delivery.application.member.dto.RegisterMemberCommand;
+import com.tutomato.delivery.application.member.dto.RegisterMemberResult;
 import com.tutomato.delivery.domain.member.exception.MemberAlreadyExistException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +22,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class MemberServiceIntegrationTest {
 
     @Autowired
-    private MemberService memberService;
+    private MemberRegisterService memberRegisterService;
 
     @Autowired
     private MemberJpaRepository memberJpaRepository;
@@ -37,7 +38,7 @@ class MemberServiceIntegrationTest {
         );
 
         // when
-        RegisterMemberResult result = memberService.register(command);
+        RegisterMemberResult result = memberRegisterService.register(command);
 
         // then
         assertThat(result.memberId()).isNotNull();
@@ -67,7 +68,7 @@ class MemberServiceIntegrationTest {
             "Abcdef1234!@",
             "첫번째회원"
         );
-        memberService.register(first);
+        memberRegisterService.register(first);
 
         RegisterMemberCommand second = new RegisterMemberCommand(
             account,
@@ -76,7 +77,7 @@ class MemberServiceIntegrationTest {
         );
 
         // when & then
-        assertThatThrownBy(() -> memberService.register(second))
+        assertThatThrownBy(() -> memberRegisterService.register(second))
             .isInstanceOf(MemberAlreadyExistException.class)
             .hasMessageContaining("이미 사용 중인 계정입니다");
     }

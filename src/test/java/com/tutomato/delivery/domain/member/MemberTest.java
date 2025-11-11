@@ -62,7 +62,7 @@ class MemberTest {
             Member.create(invalidAccount, "Abcdef1234!@", "홍길동", cipher)
         )
             .isInstanceOf(InvalidMemberException.class)
-            .hasMessageContaining("아이디는 4~20자의 영문 소문자와 숫자만 사용할 수 있습니다.");
+            .hasMessageContaining("아이디는 4~20자의 영문 대소문자와 숫자만 사용할 수 있습니다.");
     }
 
     @ParameterizedTest
