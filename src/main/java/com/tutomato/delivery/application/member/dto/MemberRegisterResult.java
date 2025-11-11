@@ -4,7 +4,7 @@ import com.tutomato.delivery.domain.member.Member;
 import com.tutomato.delivery.domain.member.Role;
 import java.time.LocalDateTime;
 
-public record RegisterMemberResult(
+public record MemberRegisterResult(
     Long memberId,
     String account,
     String name,
@@ -12,8 +12,8 @@ public record RegisterMemberResult(
     LocalDateTime createdAt
 ) {
 
-    public static RegisterMemberResult from(Member member) {
-        return new RegisterMemberResult(
+    public static MemberRegisterResult from(Member member) {
+        return new MemberRegisterResult(
             member.getId(),
             member.getAccount(),
             member.getName(),

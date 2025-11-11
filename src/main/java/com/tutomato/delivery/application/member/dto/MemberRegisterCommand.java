@@ -1,16 +1,16 @@
 package com.tutomato.delivery.application.member.dto;
 
-public record RegisterMemberCommand(
+public record MemberRegisterCommand(
     String account,
     String rawPassword,
     String name
 ) {
 
-    public static RegisterMemberCommand of(
+    public static MemberRegisterCommand of(
         String account,
         String rawPassword,
         String name
     ) {
-        return new RegisterMemberCommand(account, rawPassword, name);
+        return new MemberRegisterCommand(account, rawPassword, name);
     }
 }
