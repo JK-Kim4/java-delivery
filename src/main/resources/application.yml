@@ -21,3 +21,13 @@ spring:
     defer-datasource-initialization: true
   main:
     allow-bean-definition-overriding: true
+
+
+## JWT 설정
+jwt:
+  access:
+    secret: CnzOb1c6g3kkY8QW+TwFl1DgNBFWtSEZamaHS+0BA/U=
+    ttl: 15m
+  refresh:
+    secret: p/E81ODr93t/8QiN7FTQkeXqexA99gshuRSNd+or11g=
+    ttl: 30d
