@@ -75,6 +75,10 @@ public class Member extends BaseTimeEntity {
         }
     }
 
+    public boolean isCorrectPassword(String rawPassword, CryptoCipher cipher) {
+        return this.password.matches(rawPassword, cipher);
+    }
+
     public Long getId() {
         return id;
     }

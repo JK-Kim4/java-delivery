@@ -4,8 +4,6 @@ import com.tutomato.delivery.common.utils.cipher.CryptoAlgorithm;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipherFactory;
 import com.tutomato.delivery.domain.member.Account;
 import com.tutomato.delivery.domain.member.Member;
-import com.tutomato.delivery.application.member.dto.RegisterMemberCommand;
-import com.tutomato.delivery.application.member.dto.RegisterMemberResult;
 import com.tutomato.delivery.domain.member.exception.MemberAlreadyExistException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ public class MemberRegisterService {
         this.memberJpaRepository = memberJpaRepository;
     }
 
-    public RegisterMemberResult register(RegisterMemberCommand command) {
+    public MemberRegisterResult register(MemberRegisterCommand command) {
         validateDuplicateAccount(command.account());
 
         Member member = Member.create(
@@ -33,7 +31,7 @@ public class MemberRegisterService {
 
         memberJpaRepository.save(member);
 
-        return RegisterMemberResult.from(member);
+        return MemberRegisterResult.from(member);
     }
 
     private void validateDuplicateAccount(String account) {

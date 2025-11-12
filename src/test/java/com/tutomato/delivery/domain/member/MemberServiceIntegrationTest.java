@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.tutomato.delivery.application.member.MemberRegisterService;
-import com.tutomato.delivery.application.member.dto.RegisterMemberCommand;
-import com.tutomato.delivery.application.member.dto.RegisterMemberResult;
 import com.tutomato.delivery.domain.member.exception.MemberAlreadyExistException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -31,14 +29,14 @@ class MemberServiceIntegrationTest {
     @DisplayName("신규 account로 회원 가입 시 회원이 저장되고 결과를 반환한다")
     void registerMember_success() {
         // given
-        RegisterMemberCommand command = new RegisterMemberCommand(
+        MemberRegisterCommand command = new MemberRegisterCommand(
             "testaccount",
             "Abcdef1234!@",
             "홍길동"
         );
 
         // when
-        RegisterMemberResult result = memberRegisterService.register(command);
+        MemberRegisterResult result = memberRegisterService.register(command);
 
         // then
         assertThat(result.memberId()).isNotNull();
@@ -63,14 +61,14 @@ class MemberServiceIntegrationTest {
         // given
         String account = "duplicationaccount";
 
-        RegisterMemberCommand first = new RegisterMemberCommand(
+        MemberRegisterCommand first = new MemberRegisterCommand(
             account,
             "Abcdef1234!@",
             "첫번째회원"
         );
         memberRegisterService.register(first);
 
-        RegisterMemberCommand second = new RegisterMemberCommand(
+        MemberRegisterCommand second = new MemberRegisterCommand(
             account,
             "Abcdef1234!@",
             "두번째회원"
