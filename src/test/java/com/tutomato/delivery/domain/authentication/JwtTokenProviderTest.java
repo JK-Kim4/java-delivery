@@ -38,18 +38,18 @@ class JwtTokenProviderTest {
     void generateAccessToken_andValidate_success() {
         // given
         String identifier = "member-1";
-        Instant now = Instant.now();
+        Instant issuedAt = Instant.now();
 
         // when
-        Token token = jwtTokenProvider.generateToken(identifier, now, TokenType.ACCESS);
+        Token token = jwtTokenProvider.generateToken(identifier, issuedAt, TokenType.ACCESS);
 
         // then
         assertThat(token).isNotNull();
         assertThat(token.value()).isNotBlank();
         assertThat(token.tokenType()).isEqualTo(TokenType.ACCESS);
         assertThat(token.expiration())
-            .isAfter(now)
-            .isBefore(now.plus(Duration.ofMinutes(16)));
+            .isAfter(issuedAt)
+            .isBefore(issuedAt.plus(Duration.ofMinutes(16)));
 
         // 토큰 검증
         jwtTokenProvider.validateTokenOrThrow(token.value(), TokenType.ACCESS);
@@ -73,8 +73,8 @@ class JwtTokenProviderTest {
         JwtTokenProperties expiredProps = new JwtTokenProperties(expiredAccess, dummyRefresh);
         JwtTokenProvider expiredProvider = new JwtTokenProvider(expiredProps);
 
-        Instant now = Instant.now();
-        Token expiredToken = expiredProvider.generateToken("member-1", now, TokenType.ACCESS);
+        Instant issuedAt = Instant.now();
+        Token expiredToken = expiredProvider.generateToken("member-1", issuedAt, TokenType.ACCESS);
 
         // when & then
         assertThatThrownBy(() ->

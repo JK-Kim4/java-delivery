@@ -25,18 +25,18 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public Token generateToken(String identifier, Instant now, TokenType tokenType) {
+    public Token generateToken(String identifier, Instant issuedAt, TokenType tokenType) {
         TokenProperty property = properties.getProperty(tokenType);
-        Instant expiration = now.plus(property.ttl());
+        Instant expiration = issuedAt.plus(property.ttl());
 
-        return buildToken(identifier, tokenType, now, expiration, property.getKey());
+        return buildToken(identifier, tokenType, issuedAt, expiration, property.getKey());
     }
 
     @Override
     public Tokens generateTokenPair(String identifier, Instant now) {
         return new Tokens(
             buildToken(identifier, TokenType.ACCESS, now, now.plus(properties.access().ttl()), properties.access().getKey()),
-            buildToken(identifier, TokenType.REFRESH, now, now.plus(properties.access().ttl()), properties.access().getKey())
+            buildToken(identifier, TokenType.REFRESH, now, now.plus(properties.refresh().ttl()), properties.refresh().getKey())
         );
     }
 
@@ -78,18 +78,18 @@ public class JwtTokenProvider implements TokenProvider {
     private Token buildToken(
         String identifier,
         TokenType tokenType,
-        Instant now,
+        Instant issuedAt,
         Instant expiration,
         Key secret
     ) {
         String token = Jwts.builder()
             .setSubject(identifier)
-            .setIssuedAt(Date.from(now))
+            .setIssuedAt(Date.from(issuedAt))
             .setExpiration(Date.from(expiration))
             .signWith(secret, SignatureAlgorithm.HS256)
             .compact();
 
-        return new Token(token, tokenType, expiration);
+        return new Token(token, tokenType, issuedAt, expiration);
     }
 
 }

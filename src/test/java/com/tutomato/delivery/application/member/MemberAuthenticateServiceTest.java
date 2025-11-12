@@ -2,8 +2,8 @@ package com.tutomato.delivery.application.member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tutomato.delivery.application.member.dto.MemberAuthenticationCommand;
-import com.tutomato.delivery.application.member.dto.MemberAuthenticationResult;
+import com.tutomato.delivery.application.member.dto.MemberAuthenticateCommand;
+import com.tutomato.delivery.application.member.dto.MemberAuthenticateResult;
 import com.tutomato.delivery.common.utils.cipher.CryptoAlgorithm;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipher;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipherFactory;
@@ -17,10 +17,10 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class MemberAuthenticationServiceTest {
+class MemberAuthenticateServiceTest {
 
     @Autowired
-    private MemberAuthenticationService memberAuthenticationService;
+    private MemberAuthenticateService memberAuthenticateService;
 
     @Autowired
     private MemberJpaRepository memberJpaRepository;
@@ -43,13 +43,13 @@ class MemberAuthenticationServiceTest {
         );
         memberJpaRepository.save(member);
 
-        MemberAuthenticationCommand command = new MemberAuthenticationCommand(
+        MemberAuthenticateCommand command = new MemberAuthenticateCommand(
             account,
             rawPassword
         );
 
         // when
-        MemberAuthenticationResult result = memberAuthenticationService.authentication(command);
+        MemberAuthenticateResult result = memberAuthenticateService.authentication(command);
 
         // then
         assertThat(result).isNotNull();
