@@ -4,8 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.tutomato.delivery.application.member.MemberRegisterService;
+import com.tutomato.delivery.application.member.dto.MemberRegisterCommand;
+import com.tutomato.delivery.application.member.dto.MemberRegisterResult;
 import com.tutomato.delivery.domain.member.exception.MemberAlreadyExistException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +81,11 @@ class MemberServiceIntegrationTest {
         assertThatThrownBy(() -> memberRegisterService.register(second))
             .isInstanceOf(MemberAlreadyExistException.class)
             .hasMessageContaining("이미 사용 중인 계정입니다");
+    }
+
+    @BeforeEach
+    void setUp() {
+        memberJpaRepository.deleteAll();
     }
 
 }

@@ -1,9 +1,8 @@
 package com.tutomato.delivery.application.member;
 
-import com.tutomato.delivery.application.member.dto.MemberAuthenticationCommand;
-import com.tutomato.delivery.application.member.dto.MemberAuthenticationResult;
+import com.tutomato.delivery.application.member.dto.MemberAuthenticateCommand;
+import com.tutomato.delivery.application.member.dto.MemberAuthenticateResult;
 import com.tutomato.delivery.common.utils.cipher.CryptoAlgorithm;
-import com.tutomato.delivery.common.utils.cipher.CryptoCipher;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipherFactory;
 import com.tutomato.delivery.domain.authentication.JwtTokenProvider;
 import com.tutomato.delivery.domain.authentication.Tokens;
@@ -18,12 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class MemberAuthenticationService {
+public class MemberAuthenticateService {
 
     private final MemberJpaRepository memberJpaRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public MemberAuthenticationService(
+    public MemberAuthenticateService(
         MemberJpaRepository memberJpaRepository,
         JwtTokenProvider tokenProvider
     ) {
@@ -31,8 +30,8 @@ public class MemberAuthenticationService {
         this.jwtTokenProvider = tokenProvider;
     }
 
-    public MemberAuthenticationResult authentication(
-        MemberAuthenticationCommand command
+    public MemberAuthenticateResult authentication(
+        MemberAuthenticateCommand command
     ) {
         // 0. 인증 요청 시각
         Instant now = Instant.now();
@@ -48,7 +47,7 @@ public class MemberAuthenticationService {
         // TODO: Token에 포함되어있는 사용자 인증갑 정의 필요
         Tokens tokens = jwtTokenProvider.generateTokenPair(member.getAccount(), now);
 
-        return MemberAuthenticationResult.from(tokens);
+        return MemberAuthenticateResult.of(member, tokens);
     }
 
 
