@@ -4,8 +4,6 @@ import com.tutomato.delivery.common.utils.cipher.CryptoAlgorithm;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipherFactory;
 import com.tutomato.delivery.domain.member.Account;
 import com.tutomato.delivery.domain.member.Member;
-import com.tutomato.delivery.application.member.dto.MemberRegisterCommand;
-import com.tutomato.delivery.application.member.dto.MemberRegisterResult;
 import com.tutomato.delivery.domain.member.exception.MemberAlreadyExistException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.springframework.stereotype.Service;
