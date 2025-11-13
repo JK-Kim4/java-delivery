@@ -41,27 +41,30 @@ public class Member extends BaseTimeEntity {
     private Member(
         Account account,
         Password password,
-        String name
+        String name,
+        Role role
     ) {
         validateName(name);
 
         this.account = account;
         this.password = password;
         this.name = name;
-        this.role = Role.MEMBER;
+        this.role = role;
     }
 
     public static Member create(
         String account,
         String rawPassword,
         String name,
+        Role role,
         CryptoCipher cipher
     ) {
 
         return new Member(
             Account.from(account),
             Password.from(rawPassword, cipher),
-            name
+            name,
+            role
         );
     }
 

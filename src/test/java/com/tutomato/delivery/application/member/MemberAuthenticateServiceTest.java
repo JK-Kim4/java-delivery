@@ -8,6 +8,7 @@ import com.tutomato.delivery.common.utils.cipher.CryptoAlgorithm;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipher;
 import com.tutomato.delivery.common.utils.cipher.CryptoCipherFactory;
 import com.tutomato.delivery.domain.member.Member;
+import com.tutomato.delivery.domain.member.Role;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ class MemberAuthenticateServiceTest {
         String account = "testaccount";
         String rawPassword = "Abcdef1234!@";
         String name = "홍길동";
+        Role role = Role.RIDER;
 
         CryptoCipher cipher = CryptoCipherFactory.get(CryptoAlgorithm.SHA256);
 
@@ -39,6 +41,7 @@ class MemberAuthenticateServiceTest {
             account,
             rawPassword,
             name,
+            role,
             cipher
         );
         memberJpaRepository.save(member);

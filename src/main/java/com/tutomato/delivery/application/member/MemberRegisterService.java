@@ -28,6 +28,7 @@ public class MemberRegisterService {
             command.account(),
             command.rawPassword(),
             command.name(),
+            command.role(),
             CryptoCipherFactory.get(CryptoAlgorithm.SHA256)
         );
 

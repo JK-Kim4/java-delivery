@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class MemberTest {
 
     private final CryptoCipher cipher = CryptoCipherFactory.get(CryptoAlgorithm.SHA256);
+    private final Role role = Role.RIDER;
 
     @Test
     @DisplayName("유효한 account, password, name 으로 Member.create 호출 시 Member가 정상 생성된다")
@@ -25,14 +26,15 @@ class MemberTest {
         String rawPassword = "Abcdef1234!@";
         String name = "홍길동";
 
+
         // when
-        Member member = Member.create(account, rawPassword, name, cipher);
+        Member member = Member.create(account, rawPassword, name, role, cipher);
 
         // then
         assertThat(member.getId()).isNull();
         assertThat(member.getAccount()).isEqualTo(account);
         assertThat(member.getName()).isEqualTo(name);
-        assertThat(member.getRole()).isEqualTo(Role.MEMBER);
+        assertThat(member.getRole()).isEqualTo(Role.RIDER);
         assertThat(member.getPassword()).isNotNull();
         assertThat(member.getPassword().getPassword()).isNotEqualTo(rawPassword);
     }
@@ -44,7 +46,7 @@ class MemberTest {
     void create_fail_invalid_account_null_or_blank(String blank) {
         // null
         assertThatThrownBy(() ->
-            Member.create(blank, "Abcdef1234!@", "홍길동", cipher)
+            Member.create(blank, "Abcdef1234!@", "홍길동", role, cipher)
         )
             .isInstanceOf(InvalidMemberException.class)
             .hasMessageContaining("아이디(account)는 비어 있을 수 없습니다.");
@@ -59,7 +61,7 @@ class MemberTest {
     @DisplayName("account가 규칙(4~20자 영문 대소문자+숫자)에 맞지 않으면 InvalidMemberException을 던진다")
     void create_fail_invalid_account_pattern(String invalidAccount) {
         assertThatThrownBy(() ->
-            Member.create(invalidAccount, "Abcdef1234!@", "홍길동", cipher)
+            Member.create(invalidAccount, "Abcdef1234!@", "홍길동", role, cipher)
         )
             .isInstanceOf(InvalidMemberException.class)
             .hasMessageContaining("아이디는 4~20자의 영문 대소문자와 숫자만 사용할 수 있습니다.");
@@ -72,7 +74,7 @@ class MemberTest {
     void create_fail_invalid_name_null_or_blank(String blank) {
         // null
         assertThatThrownBy(() ->
-            Member.create("TestUser1", "Abcdef1234!@", blank, cipher)
+            Member.create("TestUser1", "Abcdef1234!@", blank, role, cipher)
         )
             .isInstanceOf(InvalidMemberException.class)
             .hasMessageContaining("이름(name)은 비어 있을 수 없습니다.");
@@ -84,7 +86,7 @@ class MemberTest {
         String longName = "abcdefghijklmnopqrstu"; // 21자
 
         assertThatThrownBy(() ->
-            Member.create("TestUser1", "Abcdef1234!@", longName, cipher)
+            Member.create("TestUser1", "Abcdef1234!@", longName, role, cipher)
         )
             .isInstanceOf(InvalidMemberException.class)
             .hasMessageContaining("이름은 20자 이하여야 합니다.");
@@ -97,7 +99,7 @@ class MemberTest {
         String shortPassword = "Abc123!@"; // 8자
 
         assertThatThrownBy(() ->
-            Member.create("TestUser1", shortPassword, "홍길동", cipher)
+            Member.create("TestUser1", shortPassword, "홍길동", role, cipher)
         )
             .isInstanceOf(InvalidPasswordException.class)
             .hasMessageContaining("비밀번호는 12자리 이상이어야 합니다.");
