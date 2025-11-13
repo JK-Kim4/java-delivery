@@ -35,7 +35,8 @@ class MemberServiceIntegrationTest {
         MemberRegisterCommand command = new MemberRegisterCommand(
             "testaccount",
             "Abcdef1234!@",
-            "홍길동"
+            "홍길동",
+            Role.RIDER
         );
 
         // when
@@ -45,7 +46,7 @@ class MemberServiceIntegrationTest {
         assertThat(result.memberId()).isNotNull();
         assertThat(result.account()).isEqualTo(command.account());
         assertThat(result.name()).isEqualTo(command.name());
-        assertThat(result.role()).isEqualTo(Role.MEMBER);
+        assertThat(result.role()).isEqualTo(Role.RIDER);
         assertThat(result.createdAt()).isNotNull();
 
         // 실제 DB에 저장된 엔티티 검증
@@ -67,14 +68,16 @@ class MemberServiceIntegrationTest {
         MemberRegisterCommand first = new MemberRegisterCommand(
             account,
             "Abcdef1234!@",
-            "첫번째회원"
+            "첫번째회원",
+            Role.RIDER
         );
         memberRegisterService.register(first);
 
         MemberRegisterCommand second = new MemberRegisterCommand(
             account,
             "Abcdef1234!@",
-            "두번째회원"
+            "두번째회원",
+            Role.RIDER
         );
 
         // when & then

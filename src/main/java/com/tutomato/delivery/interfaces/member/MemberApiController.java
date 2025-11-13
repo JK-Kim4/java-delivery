@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/members")
 public class MemberApiController implements MemberApiSpec {
 
-    private final MemberAuthenticateService memberAuthenticateService;
     private final MemberRegisterService memberRegisterService;
+    private final MemberAuthenticateService memberAuthenticateService;
 
     public MemberApiController(
-        MemberAuthenticateService memberAuthenticateService,
-        MemberRegisterService memberRegisterService
-    ) {
-        this.memberAuthenticateService = memberAuthenticateService;
+        MemberRegisterService memberRegisterService,
+        MemberAuthenticateService memberAuthenticateService
+        ) {
         this.memberRegisterService = memberRegisterService;
+        this.memberAuthenticateService = memberAuthenticateService;
     }
 
     @Override
