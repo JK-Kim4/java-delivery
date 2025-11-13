@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Entity
@@ -78,6 +79,14 @@ public class Member extends BaseTimeEntity {
         }
     }
 
+    public boolean isRiderMember() {
+        return this.role == Role.RIDER;
+    }
+
+    public boolean isStoreMember() {
+        return this.role == Role.STORE;
+    }
+
     public boolean isCorrectPassword(String rawPassword, CryptoCipher cipher) {
         return this.password.matches(rawPassword, cipher);
     }
@@ -100,5 +109,20 @@ public class Member extends BaseTimeEntity {
 
     public Role getRole() {
         return role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Member member = (Member) o;
+        return Objects.equals(getId(), member.getId()) && Objects.equals(
+            getAccount(), member.getAccount());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getAccount());
     }
 }
