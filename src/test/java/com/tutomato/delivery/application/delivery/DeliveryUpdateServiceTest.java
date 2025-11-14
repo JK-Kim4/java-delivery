@@ -2,6 +2,7 @@ package com.tutomato.delivery.application.delivery;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tutomato.delivery.application.delivery.dto.DeliveryAddressModifyCommand;
 import com.tutomato.delivery.application.delivery.dto.DeliveryStatusUpdateCommand;
 import com.tutomato.delivery.domain.delivery.Address;
 import com.tutomato.delivery.domain.delivery.Delivery;

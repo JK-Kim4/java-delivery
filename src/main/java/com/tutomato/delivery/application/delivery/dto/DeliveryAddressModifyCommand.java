@@ -1,4 +1,4 @@
-package com.tutomato.delivery.application.delivery;
+package com.tutomato.delivery.application.delivery.dto;
 
 import com.tutomato.delivery.domain.delivery.Address;
 
