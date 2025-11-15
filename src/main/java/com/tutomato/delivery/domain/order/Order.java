@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.tutomato.delivery.domain.BaseTimeEntity;
 import com.tutomato.delivery.domain.member.Member;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +27,10 @@ public class Order extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_member_id", nullable = false)
+    @JoinColumn(
+        name = "store_member_id",
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Member store;
 
     @Column(name = "receiver_name", nullable = false, length = 50)
