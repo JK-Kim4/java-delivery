@@ -9,7 +9,7 @@ import com.tutomato.delivery.domain.authentication.Tokens;
 import com.tutomato.delivery.domain.member.Account;
 import com.tutomato.delivery.domain.member.Member;
 import com.tutomato.delivery.domain.member.exception.InvalidPasswordException;
-import com.tutomato.delivery.domain.member.exception.MemberNotFountException;
+import com.tutomato.delivery.domain.member.exception.MemberNotFoundException;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import java.time.Instant;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class MemberAuthenticateService {
 
         // 1. 사용자 조회
         Member member = memberJpaRepository.findByAccount(Account.from(command.account()))
-            .orElseThrow(() -> new MemberNotFountException("입력하신 아이디에 해당하는 사용자를 찾을 수 없습니다."));
+            .orElseThrow(() -> new MemberNotFoundException("입력하신 아이디에 해당하는 사용자를 찾을 수 없습니다."));
 
         // 2. password 일치 여부 검증
         validationPassword(member, command.rawPassword());

@@ -4,16 +4,15 @@ import org.springframework.http.HttpStatus;
 
 public class InvalidPasswordException extends RuntimeException {
 
-    private final String message;
-    private final HttpStatus status = HttpStatus.BAD_REQUEST;
+    private final HttpStatus status;
 
     public InvalidPasswordException(String message) {
-        this.message = message;
+        this(message, HttpStatus.BAD_REQUEST);
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+    public InvalidPasswordException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
     }
 
     public HttpStatus getStatus() {

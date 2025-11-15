@@ -4,16 +4,15 @@ import org.springframework.http.HttpStatus;
 
 public class IllegalDeliveryStatusException extends RuntimeException {
 
-    private final String message;
-    private final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+    private final HttpStatus httpStatus;
 
     public IllegalDeliveryStatusException(String message) {
-        this.message = message;
+        this(message, HttpStatus.BAD_REQUEST);
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+    public IllegalDeliveryStatusException(String message, HttpStatus httpStatus) {
+        super(message);
+        this.httpStatus = httpStatus;
     }
 
     public HttpStatus getHttpStatus() {

@@ -2,15 +2,15 @@ package com.tutomato.delivery.domain.member.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class MemberAlreadyExistException extends RuntimeException {
+public class MemberNotFoundException extends RuntimeException {
 
     private final HttpStatus status;
 
-    public MemberAlreadyExistException(String message) {
-        this(message, HttpStatus.CONFLICT);
+    public MemberNotFoundException(String message) {
+        this(message, HttpStatus.NOT_FOUND);
     }
 
-    public MemberAlreadyExistException(String message, HttpStatus status) {
+    public MemberNotFoundException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }

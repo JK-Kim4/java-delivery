@@ -3,21 +3,16 @@ package com.tutomato.delivery.common.exception;
 import org.springframework.http.HttpStatus;
 
 public class ForbiddenException extends RuntimeException {
-    private final String message;
-    private HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+
+    private final HttpStatus httpStatus;
 
     public ForbiddenException(String message) {
-        this.message = message;
+        this(message, HttpStatus.FORBIDDEN);
     }
 
     public ForbiddenException(String message, HttpStatus httpStatus) {
-        this.message = message;
+        super(message);
         this.httpStatus = httpStatus;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
     }
 
     public HttpStatus getHttpStatus() {

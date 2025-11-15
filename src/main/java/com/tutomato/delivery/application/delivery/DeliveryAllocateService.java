@@ -3,11 +3,10 @@ package com.tutomato.delivery.application.delivery;
 import com.tutomato.delivery.application.delivery.dto.DeliveryAllocateCommand;
 import com.tutomato.delivery.application.delivery.dto.DeliveryAllocateResult;
 import com.tutomato.delivery.domain.delivery.Delivery;
-import com.tutomato.delivery.domain.delivery.DeliveryStatus;
 import com.tutomato.delivery.domain.delivery.exception.DeliveryNotFoundException;
 import com.tutomato.delivery.domain.member.Member;
 import com.tutomato.delivery.domain.member.exception.IllegalMemberRoleException;
-import com.tutomato.delivery.domain.member.exception.MemberNotFountException;
+import com.tutomato.delivery.domain.member.exception.MemberNotFoundException;
 import com.tutomato.delivery.infrastructure.delivery.DeliveryJpaRepository;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class DeliveryAllocateService {
 
         // 1. 라이더 검증
         Member rider = memberJpaRepository.findById(command.riderMemberId())
-            .orElseThrow(() -> new MemberNotFountException("사용자를 조회할 수 없습니다."));
+            .orElseThrow(() -> new MemberNotFoundException("사용자를 조회할 수 없습니다."));
 
         if (!rider.isRiderMember()) {
             throw new IllegalMemberRoleException("라이더에 해당하는 회원이 아닙니다.");

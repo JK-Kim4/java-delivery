@@ -57,12 +57,16 @@ public interface DeliveryApiSpec {
             )
         ),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "400",
+            description = "잘못된 요청 (잘못된 형식의 파라미터, 필수 파라미터 누락 등)"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
             responseCode = "403",
             description = "권한이 없는 사용자 요청"
         ),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
             responseCode = "404",
-            description = "고유번호에 해당하는 배달 혹은 Rider 정보가 존재하지 않음"
+            description = "고유번호에 해당하는 배달 혹은 Rider/Store 정보가 존재하지 않음"
         )
     })
     @SecurityRequirement(name = "Authorization")
@@ -98,6 +102,18 @@ public interface DeliveryApiSpec {
                 mediaType = "application/json",
                 schema = @Schema(implementation = DeliveryStatusUpdateResponse.class)
             )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "400",
+            description = "잘못된 요청 (잘못된 형식의 파라미터, 필수 파라미터 누락 등)"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "403",
+            description = "권한이 없는 사용자 요청"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404",
+            description = "고유번호에 해당하는 배달 혹은 Rider/Store 정보가 존재하지 않음"
         )
     })
     @SecurityRequirement(name = "Authorization")
@@ -133,6 +149,18 @@ public interface DeliveryApiSpec {
                 mediaType = "application/json",
                 schema = @Schema(implementation = DeliveryStatusUpdateResponse.class)
             )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "400",
+            description = "잘못된 요청 (잘못된 형식의 파라미터, 필수 파라미터 누락 등)"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "403",
+            description = "권한이 없는 사용자 요청"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404",
+            description = "고유번호에 해당하는 배달 혹은 Rider/Store 정보가 존재하지 않음"
         )
     })
     @SecurityRequirement(name = "Authorization")
@@ -165,6 +193,28 @@ public interface DeliveryApiSpec {
             예) `Authorization: Bearer {accessToken}`
             """
     )
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "도착지 주소 변경 성공",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = DeliveryStatusUpdateResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "400",
+            description = "잘못된 요청 (변경 불가능 상태, 잘못된 형식의 파라미터, 필수 파라미터 누락 등)"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "403",
+            description = "권한이 없는 사용자 요청"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404",
+            description = "고유번호에 해당하는 배달 혹은 Rider/Store 정보가 존재하지 않음"
+        )
+    })
     @SecurityRequirement(name = "Authorization")
     ResponseEntity<ApiResponse<DeliveryAddressModifyResponse>> modifyAddress(
         @Schema(hidden = true) AuthMemberRequest authMember,

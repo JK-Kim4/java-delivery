@@ -4,16 +4,15 @@ import org.springframework.http.HttpStatus;
 
 public class DeliveryNotFoundException extends RuntimeException {
 
-    private final String message;
-    private final HttpStatus status = HttpStatus.NOT_FOUND;
+    private final HttpStatus status;
 
     public DeliveryNotFoundException(String message) {
-        this.message = message;
+        this(message, HttpStatus.NOT_FOUND);
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+    public DeliveryNotFoundException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
     }
 
     public HttpStatus getStatus() {

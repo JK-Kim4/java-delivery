@@ -7,7 +7,7 @@ import com.tutomato.delivery.application.delivery.dto.DeliveryStatusUpdateResult
 import com.tutomato.delivery.domain.delivery.Delivery;
 import com.tutomato.delivery.domain.delivery.exception.DeliveryNotFoundException;
 import com.tutomato.delivery.domain.member.Member;
-import com.tutomato.delivery.domain.member.exception.MemberNotFountException;
+import com.tutomato.delivery.domain.member.exception.MemberNotFoundException;
 import com.tutomato.delivery.infrastructure.delivery.DeliveryJpaRepository;
 import com.tutomato.delivery.infrastructure.member.MemberJpaRepository;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class DeliveryUpdateService {
 
         // 2. 사용자 조회
         Member member = memberJpaRepository.findById(command.storeMemberId())
-            .orElseThrow(() -> new MemberNotFountException("사용자를 조회할 수 없습니다."));
+            .orElseThrow(() -> new MemberNotFoundException("사용자를 조회할 수 없습니다."));
 
         // 3. 주문 가게 검증
         delivery.validateStore(member);
@@ -54,7 +54,7 @@ public class DeliveryUpdateService {
 
         // 2. 사용자 조회
         Member member = memberJpaRepository.findById(command.riderMemberId())
-            .orElseThrow(() -> new MemberNotFountException("사용자를 조회할 수 없습니다."));
+            .orElseThrow(() -> new MemberNotFoundException("사용자를 조회할 수 없습니다."));
 
         // 3. 할당 라이더 검증
         delivery.validateRider(member);
@@ -73,7 +73,7 @@ public class DeliveryUpdateService {
 
         // 2. 사용자 조회
         Member member = memberJpaRepository.findById(command.storeMemberId())
-            .orElseThrow(() -> new MemberNotFountException("사용자를 조회할 수 없습니다."));
+            .orElseThrow(() -> new MemberNotFoundException("사용자를 조회할 수 없습니다."));
 
         // 3. 주문 가게 검증
         delivery.validateStore(member);
