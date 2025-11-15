@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
+import com.tutomato.delivery.domain.delivery.exception.IllegalDeliveryStatusException;
 import com.tutomato.delivery.domain.member.Member;
 import com.tutomato.delivery.domain.order.Order;
 import com.tutomato.delivery.domain.order.OrderStatus;
@@ -103,7 +104,7 @@ class DeliveryTest {
 
             // when & then
             assertThatThrownBy(delivery::startDelivery)
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalDeliveryStatusException.class)
                 .hasMessageContaining("라이더 할당 완료 상태의 배달만 배달은 시작할 수 있습니다.");
         }
     }
@@ -144,7 +145,7 @@ class DeliveryTest {
 
             // when & then
             assertThatThrownBy(delivery::completeDelivery)
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalDeliveryStatusException.class)
                 .hasMessageContaining("배송중인 배달만 배달 완료할 수 있습니다.");
         }
     }
@@ -187,7 +188,7 @@ class DeliveryTest {
 
             // when & then
             assertThatThrownBy(() -> delivery.updateDestination(newAddress))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalDeliveryStatusException.class)
                 .hasMessageContaining("픽업이 완료되어 도착지를 변경할 수 없습니다.");
         }
     }

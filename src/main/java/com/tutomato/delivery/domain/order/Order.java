@@ -3,11 +3,14 @@ package com.tutomato.delivery.domain.order;
 import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.tutomato.delivery.domain.BaseTimeEntity;
 import com.tutomato.delivery.domain.member.Member;
+import com.tutomato.delivery.domain.order.exception.IllegalOrderStatusException;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +28,10 @@ public class Order extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_member_id", nullable = false)
+    @JoinColumn(
+        name = "store_member_id",
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Member store;
 
     @Column(name = "receiver_name", nullable = false, length = 50)
@@ -61,7 +67,7 @@ public class Order extends BaseTimeEntity {
 
     public void startDelivery() {
         if (this.orderStatus != OrderStatus.ORDER_RECEIVED) {
-            throw new IllegalStateException(
+            throw new IllegalOrderStatusException(
                 "배송 시작은 주문 접수 상태에서만 가능합니다. 현재 상태: " + this.orderStatus);
         }
         this.orderStatus = OrderStatus.DELIVERY_STARTED;
@@ -69,7 +75,7 @@ public class Order extends BaseTimeEntity {
 
     public void completeDelivery() {
         if (this.orderStatus != OrderStatus.DELIVERY_STARTED) {
-            throw new IllegalStateException(
+            throw new IllegalOrderStatusException(
                 "배송 완료는 배송 시작 상태에서만 가능합니다. 현재 상태: " + this.orderStatus);
         }
         this.orderStatus = OrderStatus.DELIVERY_COMPLETED;
@@ -77,15 +83,15 @@ public class Order extends BaseTimeEntity {
 
     public void cancel(String reason) {
         if (this.orderStatus == OrderStatus.DELIVERY_COMPLETED) {
-            throw new IllegalStateException("배송 완료된 주문은 취소할 수 없습니다.");
+            throw new IllegalOrderStatusException("배송 완료된 주문은 취소할 수 없습니다.");
         }
 
         if (this.orderStatus == OrderStatus.DELIVERY_STARTED) {
-            throw new IllegalStateException("배송이 시작된 주문은 취소할 수 없습니다.");
+            throw new IllegalOrderStatusException("배송이 시작된 주문은 취소할 수 없습니다.");
         }
 
         if (this.orderStatus == OrderStatus.CANCELED) {
-            throw new IllegalStateException("이미 취소된 주문입니다.");
+            throw new IllegalOrderStatusException("이미 취소된 주문입니다.");
         }
 
         this.orderStatus = OrderStatus.CANCELED;

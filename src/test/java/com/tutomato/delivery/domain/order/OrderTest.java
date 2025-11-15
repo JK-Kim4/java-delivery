@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
 import com.tutomato.delivery.domain.member.Member;
+import com.tutomato.delivery.domain.order.exception.IllegalOrderStatusException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ class OrderTest {
 
             // when & then
             assertThatThrownBy(order::startDelivery)
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalOrderStatusException.class)
                 .hasMessageContaining("배송 시작은 주문 접수 상태에서만 가능합니다");
         }
     }
@@ -91,7 +92,7 @@ class OrderTest {
 
             // when & then
             assertThatThrownBy(order::completeDelivery)
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalOrderStatusException.class)
                 .hasMessageContaining("배송 완료는 배송 시작 상태에서만 가능합니다");
         }
     }
@@ -129,7 +130,7 @@ class OrderTest {
 
             // when & then
             assertThatThrownBy(() -> order.cancel(reason))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalOrderStatusException.class)
                 .hasMessageContaining("배송 완료된 주문은 취소할 수 없습니다");
         }
 
@@ -144,7 +145,7 @@ class OrderTest {
 
             // when & then
             assertThatThrownBy(() -> order.cancel(reason))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalOrderStatusException.class)
                 .hasMessageContaining("이미 취소된 주문입니다");
         }
     }
