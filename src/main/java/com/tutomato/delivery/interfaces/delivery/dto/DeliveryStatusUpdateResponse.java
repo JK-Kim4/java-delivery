@@ -1,6 +1,7 @@
 package com.tutomato.delivery.interfaces.delivery.dto;
 
 import com.tutomato.delivery.application.delivery.dto.DeliveryStatusUpdateResult;
+import com.tutomato.delivery.common.utils.DateTimeParser;
 import com.tutomato.delivery.domain.delivery.DeliveryStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -62,9 +63,9 @@ public record DeliveryStatusUpdateResponse(
             result.riderMemberId(),
             result.deliveryId(),
             result.deliveryStatus(),
-            LocalDateTime.ofInstant(result.allocatedAt(), ZoneId.of("Asia/Seoul")),
-            LocalDateTime.ofInstant(result.deliveryStartedAt(), ZoneId.of("Asia/Seoul")),
-            LocalDateTime.ofInstant(result.completedAt(), ZoneId.of("Asia/Seoul"))
+            DateTimeParser.toLocalDateTimeOrNull(result.allocatedAt()),
+            DateTimeParser.toLocalDateTimeOrNull(result.deliveryStartedAt()),
+            DateTimeParser.toLocalDateTimeOrNull(result.completedAt())
         );
     }
 

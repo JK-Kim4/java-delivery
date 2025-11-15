@@ -1,6 +1,7 @@
 package com.tutomato.delivery.interfaces.delivery.dto;
 
 import com.tutomato.delivery.application.delivery.dto.DeliverySearchResult;
+import com.tutomato.delivery.common.utils.DateTimeParser;
 import com.tutomato.delivery.domain.delivery.Address;
 import com.tutomato.delivery.domain.delivery.DeliveryStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -107,11 +108,11 @@ public record DeliverySearchResponse(
             delivery.allocatedRiderName(),
             delivery.destination(),
             delivery.deliveryStatus(),
-            toLocalDateTimeOrNull(delivery.createdAt()),
-            toLocalDateTimeOrNull(delivery.requestedAt()),
-            toLocalDateTimeOrNull(delivery.allocatedAt()),
-            toLocalDateTimeOrNull(delivery.deliveryStartedAt()),
-            toLocalDateTimeOrNull(delivery.completedAt())
+            DateTimeParser.toLocalDateTimeOrNull(delivery.createdAt()),
+            DateTimeParser.toLocalDateTimeOrNull(delivery.requestedAt()),
+            DateTimeParser.toLocalDateTimeOrNull(delivery.allocatedAt()),
+            DateTimeParser.toLocalDateTimeOrNull(delivery.deliveryStartedAt()),
+            DateTimeParser.toLocalDateTimeOrNull(delivery.completedAt())
         );
     }
 
@@ -120,10 +121,4 @@ public record DeliverySearchResponse(
             .collect(Collectors.toList());
     }
 
-    private static LocalDateTime toLocalDateTimeOrNull(Instant instant) {
-        if (instant == null) {
-            return null;
-        }
-        return LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Seoul"));
-    }
 }
