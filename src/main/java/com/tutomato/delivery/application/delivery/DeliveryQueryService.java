@@ -1,6 +1,6 @@
 package com.tutomato.delivery.application.delivery;
 
-import com.tutomato.delivery.application.delivery.dto.DeliverySearchCriteria;
+import com.tutomato.delivery.interfaces.delivery.dto.DeliverySearchCriteria;
 import com.tutomato.delivery.application.delivery.dto.DeliverySearchResult;
 import com.tutomato.delivery.domain.delivery.Delivery;
 import com.tutomato.delivery.infrastructure.delivery.DeliveryJpaRepository;

@@ -2,7 +2,7 @@ package com.tutomato.delivery.application.delivery;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tutomato.delivery.application.delivery.dto.DeliverySearchCriteria;
+import com.tutomato.delivery.interfaces.delivery.dto.DeliverySearchCriteria;
 import com.tutomato.delivery.application.delivery.dto.DeliverySearchResult;
 import com.tutomato.delivery.domain.delivery.Address;
 import com.tutomato.delivery.domain.delivery.Delivery;
@@ -16,8 +16,6 @@ import com.tutomato.delivery.infrastructure.order.OrderJpaRepository;
 import com.tutomato.delivery.interfaces.delivery.dto.DeliverySearchPeriod;
 import com.tutomato.delivery.supporter.MemberTestFixture;
 import jakarta.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

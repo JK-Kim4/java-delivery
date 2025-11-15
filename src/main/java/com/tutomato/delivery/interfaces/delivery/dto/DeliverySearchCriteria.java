@@ -1,7 +1,6 @@
-package com.tutomato.delivery.application.delivery.dto;
+package com.tutomato.delivery.interfaces.delivery.dto;
 
 import com.tutomato.delivery.domain.delivery.DeliveryStatus;
-import com.tutomato.delivery.interfaces.delivery.dto.DeliverySearchPeriod;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;

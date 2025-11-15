@@ -4,6 +4,7 @@ import com.tutomato.delivery.domain.delivery.Address;
 import com.tutomato.delivery.domain.delivery.Delivery;
 import com.tutomato.delivery.domain.delivery.DeliveryStatus;
 import com.tutomato.delivery.domain.member.Member;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -15,7 +16,7 @@ public record DeliveryAllocateResult(
     Long deliveryId,
     Address destination,
     DeliveryStatus deliveryStatus,
-    LocalDateTime allocatedAt
+    Instant allocatedAt
 ) {
 
     public static DeliveryAllocateResult of(
@@ -29,7 +30,7 @@ public record DeliveryAllocateResult(
             delivery.getId(),
             delivery.getDestinationAddress(),
             delivery.getDeliveryStatus(),
-            LocalDateTime.ofInstant(delivery.getAllocatedAt(), ZoneId.of("Asia/Seoul"))
+            delivery.getAllocatedAt()
         );
     }
 

@@ -4,8 +4,6 @@ import com.tutomato.delivery.domain.delivery.Address;
 import com.tutomato.delivery.domain.delivery.Delivery;
 import com.tutomato.delivery.domain.delivery.DeliveryStatus;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,28 +16,36 @@ public record DeliverySearchResult(
     String allocatedRiderName,
     Address destination,
     DeliveryStatus deliveryStatus,
-    LocalDateTime createdAt,
-    LocalDateTime requestedAt,
-    LocalDateTime allocatedAt,
-    LocalDateTime deliveryStartedAt,
-    LocalDateTime completedAt
+    Instant createdAt,
+    Instant requestedAt,
+    Instant allocatedAt,
+    Instant deliveryStartedAt,
+    Instant completedAt
 ) {
 
     public static DeliverySearchResult from(Delivery delivery) {
+        Long riderId = null;
+        String riderName = null;
+
+        if (delivery.getRider() != null) {
+            riderId = delivery.getRider().getId();
+            riderName = delivery.getRider().getName();
+        }
+
         return new DeliverySearchResult(
             delivery.getId(),
             delivery.getOrderId(),
             delivery.getOrder().getStore().getId(),
             delivery.getOrder().getStore().getName(),
-            delivery.getRider().getId(),
-            delivery.getRider().getName(),
+            riderId,
+            riderName,
             delivery.getDestinationAddress(),
             delivery.getDeliveryStatus(),
-            toLocalDateTimeOrNull(delivery.getCreatedAt()),
-            toLocalDateTimeOrNull(delivery.getRequestedAt()),
-            toLocalDateTimeOrNull(delivery.getAllocatedAt()),
-            toLocalDateTimeOrNull(delivery.getDeliveryStartedAt()),
-            toLocalDateTimeOrNull(delivery.getCompletedAt())
+            delivery.getCreatedAt(),
+            delivery.getRequestedAt(),
+            delivery.getAllocatedAt(),
+            delivery.getDeliveryStartedAt(),
+            delivery.getCompletedAt()
         );
     }
 
@@ -47,12 +53,4 @@ public record DeliverySearchResult(
         return deliveries.stream().map(DeliverySearchResult::from)
             .collect(Collectors.toList());
     }
-
-    private static LocalDateTime toLocalDateTimeOrNull(Instant instant) {
-        if (instant == null) {
-            return null;
-        }
-        return LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Seoul"));
-    }
-
 }

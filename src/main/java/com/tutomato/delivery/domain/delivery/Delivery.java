@@ -2,6 +2,7 @@ package com.tutomato.delivery.domain.delivery;
 
 
 import com.tutomato.delivery.domain.BaseTimeEntity;
+import com.tutomato.delivery.domain.delivery.exception.IllegalDeliveryStatusException;
 import com.tutomato.delivery.domain.delivery.exception.IllegalRiderException;
 import com.tutomato.delivery.domain.member.Member;
 import com.tutomato.delivery.domain.member.exception.IllegalMemberRoleException;
@@ -85,6 +86,17 @@ public class Delivery extends BaseTimeEntity {
     }
 
     public void allocateTo(Member rider) {
+
+        if (this.rider != null) {
+            throw new IllegalDeliveryStatusException("이미 라이더가 할당된 배달입니다.");
+        }
+
+        if (this.deliveryStatus != DeliveryStatus.REQUESTED) {
+            throw new IllegalDeliveryStatusException(
+                "배달 할당은 'REQUESTED' 상태에서만 가능합니다. 현재 상태: " + this.deliveryStatus
+            );
+        }
+
         this.rider = rider;
         this.allocatedAt = Instant.now();
         this.deliveryStatus = DeliveryStatus.ASSIGNED;
@@ -92,7 +104,7 @@ public class Delivery extends BaseTimeEntity {
 
     public void startDelivery() {
         if (deliveryStatus != DeliveryStatus.ASSIGNED) {
-            throw new IllegalStateException("라이더 할당 완료 상태의 배달만 배달은 시작할 수 있습니다.");
+            throw new IllegalDeliveryStatusException("라이더 할당 완료 상태의 배달만 배달은 시작할 수 있습니다.");
         }
 
         this.deliveryStatus = DeliveryStatus.IN_DELIVERY;
@@ -102,7 +114,7 @@ public class Delivery extends BaseTimeEntity {
 
     public void completeDelivery() {
         if (deliveryStatus != DeliveryStatus.IN_DELIVERY) {
-            throw new IllegalStateException("배송중인 배달만 배달 완료할 수 있습니다.");
+            throw new IllegalDeliveryStatusException("배송중인 배달만 배달 완료할 수 있습니다.");
         }
 
         this.deliveryStatus = DeliveryStatus.COMPLETED;
@@ -113,7 +125,7 @@ public class Delivery extends BaseTimeEntity {
     public void updateDestination(Address address) {
 
         if (!deliveryStatus.isDestinationChangeAllowed()) {
-            throw new IllegalStateException("픽업이 완료되어 도착지를 변경할 수 없습니다.");
+            throw new IllegalDeliveryStatusException("픽업이 완료되어 도착지를 변경할 수 없습니다.");
         }
 
         this.destination = Destination.create(address);
