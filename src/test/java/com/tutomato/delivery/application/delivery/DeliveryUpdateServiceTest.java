@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-class DeliveryUpdateServiceIntegrationTest {
+class DeliveryUpdateServiceTest {
 
     @Autowired
     DeliveryUpdateService deliveryUpdateService;
